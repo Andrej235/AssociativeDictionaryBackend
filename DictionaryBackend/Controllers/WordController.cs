@@ -38,6 +38,17 @@ namespace DictionaryBackend.Controllers
             return Ok(result);
         }
 
+        [HttpPost("rough")]
+        public async Task<IActionResult> Post(IEnumerable<string> words)
+        {
+            IEnumerable<WordDTO> dtos = words.Select(x => new WordDTO(0, x, []));
+            List<int> result = [];
+            foreach (var dto in dtos)
+                result.Add(await AddToDB(dto));
+
+            return Ok(result);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
